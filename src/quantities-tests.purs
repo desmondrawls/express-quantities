@@ -6,6 +6,7 @@ import Data.Array
 import Data.Tuple
 import Quantities (quantities)
 import Matchers
+import Quantities.Models
 
 empty :: Array (Tuple Int Int)
 empty = [(Tuple 1 1)]
@@ -15,15 +16,15 @@ quantitiesTests = [
   it "empty" $ 
       equals [] (quantities { size: 1, padding: 1, limit: 1, randomness: 1 } []),
   it "with a radius of zero" $ 
-      equals 2 (length $ quantities { size: 0, padding: 0, limit: 3, randomness: 5 } [(Tuple 2 2), (Tuple 4 4)]),
+      equals 2 (length $ quantities { size: 0, padding: 0, limit: 3, randomness: 5 } [(Center { center_x: 2, center_y: 2}), (Center { center_x: 4, center_y: 4})]),
   it "limit one" $ 
-      equals 1 (length $ quantities { size: 1, padding: 0, limit: 2, randomness: 3 } [(Tuple 2 2), (Tuple 4 4)]),
+      equals 1 (length $ quantities { size: 1, padding: 0, limit: 2, randomness: 3 } [(Center { center_x: 2, center_y: 2}), (Center { center_x: 4, center_y: 4})]),
   it "with a domain of one" $ 
-      equals [(Tuple 100 100), (Tuple 2 2)] (quantities { size: 1, padding: 0, limit: 3, randomness: 5 } [(Tuple 2 2)]),
+      equals [(Center { center_x: 100, center_y: 100}), (Center { center_x: 2, center_y: 2})] (quantities { size: 1, padding: 0, limit: 3, randomness: 5 } [(Center { center_x: 2, center_y: 2})]),
   it "with a domain less than the requested quantity" $ 
-      equals 2 (length $ quantities { size: 1, padding: 0, limit: 5, randomness: 9 } [(Tuple 2 2), (Tuple 4 4), (Tuple 6 6)]),
+      equals 2 (length $ quantities { size: 1, padding: 0, limit: 5, randomness: 9 } [(Center { center_x: 2, center_y: 2}), (Center { center_x: 4, center_y: 4}), (Center { center_x: 6, center_y: 6})]),
   it "padding" $ 
-      equals [(Tuple 6 6)] (quantities { size: 1, padding: 2, limit: 2, randomness: 3 } [(Tuple 2 2), (Tuple 4 4), (Tuple 6 6), (Tuple 8 8)]),
+      equals [(Center { center_x: 6, center_y: 6})] (quantities { size: 1, padding: 2, limit: 2, randomness: 3 } [(Center { center_x: 2, center_y: 2}), (Center { center_x: 4, center_y: 4}), (Center { center_x: 6, center_y: 6}), (Center { center_x: 8, center_y: 8})]),
   it "too much padding returns default" $ 
-      equals [(Tuple 100 100)] (quantities { size: 1, padding: 8, limit: 2, randomness: 3 } [(Tuple 2 2), (Tuple 4 4), (Tuple 6 6), (Tuple 8 8)])
+      equals [(Center { center_x: 100, center_y: 100})] (quantities { size: 1, padding: 8, limit: 2, randomness: 3 } [(Center { center_x: 2, center_y: 2}), (Center { center_x: 4, center_y: 4}), (Center { center_x: 6, center_y: 6}), (Center { center_x: 8, center_y: 8})])
 ]
