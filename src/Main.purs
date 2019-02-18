@@ -27,8 +27,8 @@ import Quantities.Models
 foreign import staticPath ::  Fn1 String String
 foreign import jsonBodyParser :: Fn3 Request Response (Effect Unit) (Effect Unit)
 
-createTodoHandler :: Handler
-createTodoHandler = do
+getCenters :: Handler
+getCenters = do
     padding <- getBodyParam "padding"
     size <- getBodyParam "size"
     limit <- getBodyParam "limit"
@@ -47,7 +47,7 @@ maybes _ _ _ _ = "nope"
 
 maybeQuantities :: Maybe Int -> Maybe Int -> Maybe Int -> Maybe Int -> Maybe Centers -> Centers
 maybeQuantities (Just size) (Just padding) (Just limit) (Just randomness) (Just (Centers centers))
-    = (Centers $ quantities {size, padding, limit, randomness} centers)
+    = (Centers $ quantities {size, padding, limit, randomness} [(Center {center_x: 1, center_y: 1}), (Center {center_x: 2, center_y: 2})])
 maybeQuantities Nothing Nothing Nothing Nothing Nothing = (Centers [(Center {center_x: 1, center_y: 1})])
 maybeQuantities _ Nothing Nothing Nothing Nothing = (Centers [(Center {center_x: 2, center_y: 2})])
 maybeQuantities _ _ Nothing Nothing Nothing = (Centers [(Center {center_x: 3, center_y: 3})])
@@ -73,7 +73,7 @@ app :: App
 app = do
     useExternal jsonBodyParser
     post "/echo" echoHandler
-    post "/" createTodoHandler
+    post "/" getCenters
 
 main :: Effect Server
 main = do

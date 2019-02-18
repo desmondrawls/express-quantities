@@ -1,0 +1,1 @@
+docker build -t pure/express .; docker run -p 8080:8080 -d pure/express
