@@ -5,6 +5,7 @@ import Oak.Cmd.Http.Conversion (defaultDecode, defaultEncode)
 import Data.Generic.Rep (class Generic)
 import Data.Generic.Rep.Show (genericShow)
 import Foreign.Class (class Decode, class Encode)
+import Foreign.Generic (genericEncode, genericDecode, defaultOptions)
 import Data.Eq
 
 data TransportModel = TransportModel { size :: Int, padding :: Int, limit :: Int, randomness :: Int, centers :: Centers }
@@ -15,7 +16,7 @@ instance showTransportModel :: Show TransportModel where
 derive instance genericTransportModel :: Generic TransportModel _
 
 instance encodeTransportModel :: Encode TransportModel where
-  encode = defaultEncode
+  encode = genericEncode $ defaultOptions {unwrapSingleConstructors = true}
 
 data Center = Center { center_x :: Int, center_y :: Int }
 
@@ -28,10 +29,10 @@ instance showCenter :: Show Center where
 derive instance genericCenter :: Generic Center _
 
 instance decodeCenter :: Decode Center where
-  decode = defaultDecode
+  decode = genericDecode $ defaultOptions {unwrapSingleConstructors = true}
 
 instance encodeCenter :: Encode Center where
-  encode = defaultEncode
+  encode = genericEncode $ defaultOptions {unwrapSingleConstructors = true}
 
 data Centers = Centers (Array Center)
 
@@ -41,7 +42,7 @@ instance showCenters :: Show Centers where
 derive instance genericCenters :: Generic Centers _
 
 instance decodeCenters :: Decode Centers where
-  decode = defaultDecode
+  decode = genericDecode $ defaultOptions {unwrapSingleConstructors = true}
 
 instance encodeCenters :: Encode Centers where
-  encode = defaultEncode
+  encode = genericEncode $ defaultOptions {unwrapSingleConstructors = true}
