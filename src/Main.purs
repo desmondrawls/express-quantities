@@ -34,7 +34,7 @@ getCenters = do
     limit <- getBodyParam "limit"
     randomness <- getBodyParam "randomness"
     centers <- getBodyParam "centers"
-    sendJson {quantities: (maybeQuantities size padding limit randomness centers)}
+    sendJson (maybeQuantities size padding limit randomness centers)
 
 respond :: Maybe TransportModel -> Handler
 respond (Just t) = sendJson t
